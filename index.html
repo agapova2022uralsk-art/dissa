@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DISSA — Братва с 2021</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f5f0;
+            --bg-card: #ffffff;
+            --bg-card-hover: #fafaf8;
+            --text: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --accent: #2c3e50;
+            --accent-light: #34495e;
+            --border: #e0e0d8;
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-hover: 0 12px 40px rgba(0,0,0,0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(245,245,240,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: 3px;
+        }
+        .logo span {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            margin-top: 2px;
+        }
+        .nav { display: flex; gap: 6px; }
+        .nav-btn {
+            padding: 9px 18px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 13.5px;
+            transition: all 0.25s ease;
+        }
+        .nav-btn:hover { background: var(--bg-card); color: var(--text); }
+        .nav-btn.active { background: var(--accent); color: #fff; }
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero { text-align: center; padding: 70px 20px 50px; }
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: 10px;
+            margin-bottom: 8px;
+        }
+        .hero .subtitle { font-size: 17px; color: var(--text-muted); margin-bottom: 28px; }
+        .year-badge {
+            display: inline-block;
+            padding: 10px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+        .stats { display: flex; justify-content: center; gap: 50px; margin-top: 50px; }
+        .stat .num { font-size: 40px; font-weight: 800; color: var(--accent); }
+        .stat .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 500; }
+        .section-title { font-size: 30px; font-weight: 800; text-align: center; margin-bottom: 8px; color: var(--accent); letter-spacing: 2px; }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 15px; }
+        .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .member-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        .member-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); background: var(--bg-card-hover); }
+        .member-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+        .member-avatar {
+            width: 54px; height: 54px; border-radius: 50%; background: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0;
+        }
+        .member-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 2px; color: var(--text); }
+        .member-info .nickname { font-size: 12.5px; color: var(--accent-light); font-weight: 600; }
+        .member-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+        .insta-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #f77737);
+            color: #fff; text-decoration: none; border-radius: 10px;
+            font-size: 12.5px; font-weight: 600; transition: transform 0.2s ease;
+        }
+        .insta-link:hover { transform: scale(1.04); }
+        .jokes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+        .joke-tag {
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 14px 16px; border-radius: 14px; font-size: 13.5px;
+            color: var(--text); text-align: center; transition: all 0.25s ease;
+            cursor: default; font-weight: 500; box-shadow: var(--shadow);
+        }
+        .joke-tag:hover { background: var(--accent); color: #fff; transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--accent); }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .gallery-item {
+            position: relative; border-radius: 16px; overflow: hidden;
+            aspect-ratio: 1; background: var(--bg-card); border: 1px solid var(--border);
+            cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow);
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .gallery-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 18px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.65));
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay span { font-size: 12px; color: #fff; font-weight: 600; }
+        .about-box {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 20px; padding: 44px; text-align: center; box-shadow: var(--shadow);
+        }
+        .about-box h2 { font-size: 26px; margin-bottom: 20px; color: var(--accent); font-weight: 800; }
+        .about-box p { color: var(--text-muted); line-height: 1.8; font-size: 15.5px; max-width: 680px; margin: 0 auto; }
+        .about-box .highlight { color: var(--accent); font-weight: 700; }
+        .footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 60px; }
+        .footer .heart { color: #e74c3c; }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 14px; padding: 14px 16px; }
+            .nav { flex-wrap: wrap; justify-content: center; }
+            .hero h1 { font-size: 44px; letter-spacing: 5px; }
+            .stats { gap: 28px; }
+            .members-grid { grid-template-columns: 1fr; }
+            .content { padding: 24px 16px 40px; }
+            .about-box { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">DISSA<span>БРАТВА С 2021</span></div>
+        <div class="nav">
+            <button class="nav-btn active" onclick="showSection('home')">Главная</button>
+            <button class="nav-btn" onclick="showSection('members')">Участники</button>
+            <button class="nav-btn" onclick="showSection('jokes')">Приколы</button>
+            <button class="nav-btn" onclick="showSection('gallery')">Фото</button>
+            <button class="nav-btn" onclick="showSection('about')">О нас</button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="section active" id="home">
+            <div class="hero">
+                <h1>DISSA</h1>
+                <p class="subtitle">Группа друзей, созданная в 2021 году</p>
+                <div class="year-badge">📅 Основана в 2021</div>
+                <div class="stats">
+                    <div class="stat"><div class="num">7</div><div class="label">Участников</div></div>
+                    <div class="stat"><div class="num">4+</div><div class="label">Года вместе</div></div>
+                    <div class="stat"><div class="num">∞</div><div class="label">Приколов</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="members">
+            <h2 class="section-title">УЧАСТНИКИ</h2>
+            <p class="section-subtitle">Каждый уникален по-своему</p>
+            <div class="members-grid">
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">А</div>
+                        <div class="member-info"><h3>Агапов Михаил</h3><div class="nickname">Аю</div></div>
+                    </div>
+                    <div class="member-desc">👍🏻</div>
+                    <a class="insta-link" href="https://www.instagram.com/ayou.shem?igsh=MTdvbjIxNGM5Y29pcg==" target="_blank">@ayou.shem</a>
+                </div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">Б</div>
+                        <div class="member-info"><h3>Доскалиев Бекзат</h3><div class="nickname">Бека</div></div>
+                    </div>
+                    <div class="member-desc">Хороший пацан, КМС по казакша корёс, добрый и спокойный</div>
+                    <a class="insta-link" href="https://www.instagram.com/doskalievv_55?igsh=emVyNWpqYjIwbjRs" target="_blank">@doskalievv_55</a>
+                </div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">Д</div>
+                        <div class="member-info"><h3>Жумаев Данияр</h3><div class="nickname">Узбек</div></div>
+                    </div>
+                    <div class="member-desc">МСМК по спорту, который пригодится только в зомби-апокалипсисе, ГАУ</div>
+                    <a class="insta-link" href="https://www.instagram.com/daniyar.zhumaev?igsh=MWwzM2JxbDVvNnczcA==" target="_blank">@daniyar.zhumaev</a>
+                </div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">С</div>
+                        <div class="member-info"><h3>Магзумов Сагындык</h3><div class="nickname">Дармоед</div></div>
+                    </div>
+                    <div class="member-desc">Хз, самый тупой человек на свете. Сегодня пешком после ДТП, завтра возможно на машине</div>
+                    <a class="insta-link" href="https://www.instagram.com/bultshl?igsh=azlkZnlscHQ0Y2tq" target="_blank">@bultshl</a>
+                </div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">А</div>
+                        <div class="member-info"><h3>Мажитов Алимжан</h3><div class="nickname">Красавчик</div></div>
+                    </div>
+                    <div class="member-desc">Темщик максимального уровня, весь в долгах (жб вернёт, сказал)</div>
+                    <a class="insta-link" href="https://www.instagram.com/a1_mzn?igsh=OXZwMXJjeWM1em1k" target="_blank">@a1_mzn</a>
+                </div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">Р</div>
+                        <div class="member-info"><h3>Туралиев Рамиль</h3><div class="nickname">Шапка белый</div></div>
+                    </div>
+                    <div class="member-desc">ОГРОМНЫЙ ЧЛЕН ОБЩЕСТВА и не менее ОГРОМНЫЙ НОС ЧЕЛОВЕЧЕСТВА</div>
+                    <a class="insta-link" href="https://www.instagram.com/turalievvvvv?igsh=MXVhZWZtZ2RpdTl4eA==" target="_blank">@turalievvvvv</a>
+                </div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div class="member-avatar">Р</div>
+                        <div class="member-info"><h3>Шультс Роман</h3><div class="nickname">Сиськастый</div></div>
+                    </div>
+                    <div class="member-desc">Милый, добрый и невероятно бородатый тип. Думает, что с бородой его боятся</div>
+                    <a class="insta-link" href="https://www.instagram.com/_roma_shults_?igsh=MWc4bjlieXZrNHVtMA==" target="_blank">@_roma_shults_</a>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="jokes">
+            <h2 class="section-title">ПРИКОЛЫ DISSA</h2>
+            <p class="section-subtitle">Внутренние мемы и шутки, которые поймут только свои</p>
+            <div class="jokes-grid">
+                <div class="joke-tag">🏕️ Шалашы</div>
+                <div class="joke-tag">💫 Душа компаний</div>
+                <div class="joke-tag">⚫ ЧБ</div>
+                <div class="joke-tag">🍬 Халва</div>
+                <div class="joke-tag">🤸 Паркур</div>
+                <div class="joke-tag">🦴 Сломанная рука</div>
+                <div class="joke-tag">🌲 Дубрава</div>
+                <div class="joke-tag">🏟️ Арена</div>
+                <div class="joke-tag">💃 Лезгинка</div>
+                <div class="joke-tag">🎮 КСГО</div>
+                <div class="joke-tag">🇿 Z</div>
+                <div class="joke-tag">🍔 Летфудед</div>
+                <div class="joke-tag">🎄 Новый год 2025/2026</div>
+                <div class="joke-tag">🥙 Байдонер</div>
+                <div class="joke-tag">🚜 Ферма</div>
+                <div class="joke-tag">📅 Создана в 2021</div>
+                <div class="joke-tag">🎯 Дайвинчик</div>
+                <div class="joke-tag">🏚️ Заброшки</div>
+                <div class="joke-tag">🎭 Стикер</div>
+                <div class="joke-tag">🚗 ГТА Стриптиз</div>
+                <div class="joke-tag">🎵 Музыкант Сагын</div>
+                <div class="joke-tag">🚬 Однораски</div>
+                <div class="joke-tag">📖 Пацанские истории</div>
+                <div class="joke-tag">🗣️ Брбр патапим</div>
+                <div class="joke-tag">🏠 Хата Рамы</div>
+                <div class="joke-tag">⛰️ Обрыв</div>
+                <div class="joke-tag">🥊 ПСКА / ЮФС / ФИФА</div>
+                <div class="joke-tag">🚙 Гараж и Дастер</div>
+                <div class="joke-tag">📢 Заявщик</div>
+                <div class="joke-tag">💰 Ляяяяям двести</div>
+                <div class="joke-tag">⚔️ Воин 55</div>
+                <div class="joke-tag">💨 Подик Рамы</div>
+                <div class="joke-tag">🧟 Зомбеты</div>
+                <div class="joke-tag">🏭 Завод</div>
+                <div class="joke-tag">😎 Жить в кайф</div>
+                <div class="joke-tag">🐟 Чукс</div>
+                <div class="joke-tag">💧 Водник</div>
+                <div class="joke-tag">💔 Отношения</div>
+                <div class="joke-tag">🔫 Пшакта пшакта чёрный пистолет</div>
+                <div class="joke-tag">❓ Что означает DISSA?</div>
+                <div class="joke-tag">🌊 Вальтр</div>
+                <div class="joke-tag">😂 Млрд приколов</div>
+                <div class="joke-tag">👤 Нефроры</div>
+                <div class="joke-tag">🚗💥 ДТП</div>
+                <div class="joke-tag">🌸 Раушанка</div>
+                <div class="joke-tag">🧔 Махмуд</div>
+                <div class="joke-tag">🐈 Карашка</div>
+            </div>
+        </div>
+        <div class="section" id="gallery">
+            <h2 class="section-title">ФОТО</h2>
+            <p class="section-subtitle">Моменты, которые останутся с нами навсегда</p>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="photo1.jpg" alt="dissa photo 1">
+                    <div class="gallery-overlay"><span>Лето, забор, братва</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="photo2.jpg" alt="dissa photo 2">
+                    <div class="gallery-overlay"><span>Домашние посиделки</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="photo3.jpg" alt="dissa photo 3">
+                    <div class="gallery-overlay"><span>Зимняя дорога</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="photo4.jpg" alt="dissa photo 4">
+                    <div class="gallery-overlay"><span>Баня / Купель</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="photo5.jpg" alt="dissa photo 5">
+                    <div class="gallery-overlay"><span>Зеркальное селфи</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="photo6.jpg" alt="dissa photo 6">
+                    <div class="gallery-overlay"><span>Прогулка с братвой</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="about">
+            <h2 class="section-title">О НАС</h2>
+            <p class="section-subtitle">История группы DISSA</p>
+            <div class="about-box">
+                <h2>DISSA — это не просто группа в WhatsApp</h2>
+                <p>
+                    Это <span class="highlight">братва</span>, собравшаяся ещё в <span class="highlight">2021 году</span>.
+                    С тех пор мы прошли через огонь, воду и медные трубы — от шалашей и заброшек до зимних поездок и бань.
+                    Каждый из нас со своим характером, приколами и историями, но вместе мы — <span class="highlight">DISSA</span>.
+                    <br><br>
+                    Здесь есть и КМС по казакша корёс, и МСМК для зомби-апокалипсиса, и темщик максимального уровня,
+                    и паркурщики, и музыканты, и просто хорошие пацаны.
+                    <br><br>
+                    <span class="highlight">Жить в кайф</span> — наш девиз.
+                    <br><br>
+                    <em>Ляяяяям двести, брбр патапим!</em> 🔥
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="footer">Сделано с <span class="heart">❤️</span> для DISSA · 2021—2026</div>
+    <script>
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+
